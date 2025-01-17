@@ -1,7 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
+import ProductsView from "../../components/ProductsView"
 
-export default function Home() {
+export default async function Home() {
+  const products = await getAllProducts();
+
+  // console.log(crypto.randomUUID().slice(0.5) + `>>> Rerendered the home page cacha with ${products.length} products and ${getEnabledCategories.length}`);
   return (
-    <Button>Click ME</Button>
+    <div>
+      <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 p-4">
+        <ProductsView />
+      </div>
+    </div>
   );
 }
