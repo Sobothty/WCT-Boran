@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typegen": "npx sanity@latest schema extract && npx sanity@latest typegen generate"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.9.11",
+    "@clerk/nextjs": "^6.9.12",
     "@radix-ui/react-slot": "^1.1.1",
     "@sanity/icons": "^3.5.7",
     "@sanity/image-url": "^1.1.0",
