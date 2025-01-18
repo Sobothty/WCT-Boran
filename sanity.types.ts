@@ -357,7 +357,7 @@ export type ALL_PRODUCTS_QUERYResult = Array<{
   stock?: number;
 }>;
 
-// Source: ./sanity/lib/products/searchProductByName.ts
+// Source: ./sanity/lib/products/searchProductsByName.ts
 // Variable: PRODUCT_SEARCH_QUERY
 // Query: *[            _type == "product"            && name match $searchParam        ] | order(name asc)
 export type PRODUCT_SEARCH_QUERYResult = Array<{
