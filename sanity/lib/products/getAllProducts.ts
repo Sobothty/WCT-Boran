@@ -9,6 +9,7 @@ export const getAllProducts = async () => {
         query: ALL_PRODUCTS_QUERY,
     })
     return products.data || [];
+    
   } catch (error) {
     console.log("Error fetching all products: ", error);
     return[];

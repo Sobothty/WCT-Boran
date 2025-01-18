@@ -4,8 +4,7 @@
 import "server-only"
 import { defineLive } from "next-sanity";
 import { client } from './client'
-import { error } from "console";
-import { Token } from "@clerk/nextjs/server";
+
 
 const token = process.env.SANITY_API_READ_TOKEN;
 if(!token){

@@ -388,7 +388,7 @@
         },
         "optional": true
       },
-      "validForm": {
+      "validFrom": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
