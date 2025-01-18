@@ -46,8 +46,18 @@ const useBasketStore = create<BasketState>()(
             if (item.quantity > 1) {
               acc.push({ ...item, quantity: item.quantity - 1 });
             }
+          }else{
+            acc.push(item);
           }
-        }),
+          return acc;
+        }, [] as BasketItem[]),
       })),
+      clearBasket: () => set({ items: [] }),
+      getTotalPrice: () => {
+        return get().item.reduce(
+            (total, item) => total + (item.product.price ?? 0) * item.quantity,
+            0
+        )
+      }
   }))
 );
