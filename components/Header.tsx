@@ -34,7 +34,7 @@ const Header = () => {
         >
           <input
             type="text"
-            name="quary"
+            name="query"
             placeholder="Seach for Products"
             className="bg-gray-100 text-primary px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary border w-full max-w-4xl"
           />
