@@ -1,7 +1,6 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
-
+import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,22 +38,20 @@ export function CategorySelectorComponent({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full max-w-full relative flex justify-center sm:justify-start
-        sm:flex-none items-center space-x-2 bg-primary hover:bg-red-600
-        hover:text-white text-white font-bold py-2 px-4 rounded"
+          className="w-full justify-between bg-white text-gray-800 hover:bg-gray-100 hover:text-gray-900 border border-gray-300 font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors duration-200"
         >
           {value
             ? categories.find((category) => category._id === value)?.title
             : "Filter by Category"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0" />
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-full p-0">
+      <PopoverContent className="w-full p-0 shadow-lg rounded-lg border border-gray-200">
         <Command>
           <CommandInput
             placeholder="Search category..."
-            className="h-9"
+            className="h-10"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 const selectedCategory = categories.find((c) =>
@@ -77,11 +74,12 @@ export function CategorySelectorComponent({
                 <CommandItem
                   key={category._id}
                   value={category.title}
-                  onClick={() => {
+                  onSelect={() => {
                     setValue(value === category._id ? "" : category._id);
                     router.push(`/categories/${category.slug?.current}`);
                     setOpen(false);
                   }}
+                  className="cursor-pointer hover:bg-gray-100 py-2 px-3 rounded-md transition-colors duration-200"
                 >
                   {category.title}
                   <Check
@@ -99,3 +97,4 @@ export function CategorySelectorComponent({
     </Popover>
   );
 }
+

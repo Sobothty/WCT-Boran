@@ -1,85 +1,84 @@
-"use client";
+'use client';
 
 import Link from "next/link";
-import React from "react";
-import Form from "next/form";
-import { ShoppingCart, ShoppingBasket } from "lucide-react";
+import { useRouter } from 'next/navigation';
+import { ShoppingCart, ShoppingBasket, Search } from 'lucide-react';
 import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 const Header = () => {
   const { user } = useUser();
+  const router = useRouter();
 
-  const createClerkPasskey = async () => {
-    try {
-      const respone = await user?.createPasskey();
-      console.log(respone)
-    } catch (error) {
-      console.log("Error:", JSON.stringify(error, null, 2));
-    }
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const query = formData.get('query');
+    router.push(`/search?query=${encodeURIComponent(query as string)}`);
   };
 
   return (
-    <header className="flex flex-wrap justify-between items-center py-2">
-      <div className="flex w-full flex-wrap justify-between items-center">
-        <Link
-          href="/"
-          className="text-primary font-bold text-2xl hover:opacity-50 cursor-pointer mx-auto sm:mx-auto"
-        >
+    <header className="bg-white shadow-md py-4 px-6">
+      <div className="container mx-auto flex flex-wrap items-center justify-between">
+        <Link href="/" className="text-primary font-bold text-3xl hover:opacity-80 transition-opacity">
           BORAN
         </Link>
-        <Form
-          action={"/search"}
-          className="w-full sm:w-auto sm:flex-1
-           sm:mx-4 mt-2 sm:mt-0"
-        >
-          <input
-            type="text"
-            name="query"
-            placeholder="Seach for Products"
-            className="bg-gray-100 text-primary px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-primary border w-full max-w-4xl"
-          />
-        </Form>
+        
+        <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-4">
+          <div className="relative">
+            <input
+              type="text"
+              name="query"
+              placeholder="Search for Products"
+              className="w-full bg-gray-100 text-primary px-4 py-2 pr-10 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <Search className="text-gray-400 hover:text-primary transition-colors" />
+            </button>
+          </div>
+        </form>
 
-        <div className="flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none">
+        <div className="flex items-center space-x-4 mt-4 sm:mt-0">
           <Link
             href="/basket"
-            className="flex-1 relative flex justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-primary text-white py-2 px-4 rounded"
+            className="flex items-center space-x-2 bg-primary text-white py-2 px-4 rounded-full hover:bg-primary-dark transition-colors"
           >
-            <ShoppingCart />
-            {/* Span item count */}
-            <span>My Basket</span>
+            <ShoppingCart size={20} />
+            <span className="hidden sm:inline">My Basket</span>
           </Link>
-          {/* User area */}
+          
           <ClerkLoaded>
             {user && (
               <Link
                 href="/orders"
-                className="flex-1 relative flex justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-primary text-white px-4 py-2 rounded"
+                className="flex items-center space-x-2 bg-primary text-white py-2 px-4 rounded-full hover:bg-primary-dark transition-colors"
               >
-                <ShoppingBasket />
-                <span>My Order</span>
+                <ShoppingBasket size={20} />
+                <span className="hidden sm:inline">My Orders</span>
               </Link>
             )}
 
             {user ? (
               <div className="flex items-center space-x-2">
                 <UserButton />
-
                 <div className="hidden sm:block text-xs">
-                  <p className="text-gray-400">Welcome Back</p>
-                  <p className="font-bold">{user.fullName}!</p>
+                  <p className="text-gray-500">Welcome back,</p>
+                  <p className="font-semibold">{user.fullName}</p>
                 </div>
               </div>
             ) : (
-              <SignInButton mode="modal" />
+              <SignInButton mode="modal">
+                <button className="bg-white text-primary border border-primary py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors">
+                  Sign In
+                </button>
+              </SignInButton>
             )}
 
             {user?.passkeys.length === 0 && (
               <button
-                onClick={createClerkPasskey}
-                className="bg-white hover:bg-blue-500 py-2 px-4 rounded border-blue-300 border"
+                onClick={() => user.createPasskey()}
+                className="bg-white text-primary border border-primary py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors"
               >
-                Create a passkey now
+                Create Passkey
               </button>
             )}
           </ClerkLoaded>
@@ -90,3 +89,4 @@ const Header = () => {
 };
 
 export default Header;
+
