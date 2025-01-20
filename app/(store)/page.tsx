@@ -2,13 +2,20 @@ import ChineseNewYearBanner from "@/components/ChineseNewYearBanner";
 import ProductsView from "../../components/ProductsView"
 import { getAllCategories } from "@/sanity/lib/products/getAllCategories";
 import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
-import { Button } from "@/components/ui/button";
+
+export const dynamic = "force-static";
+export const revalidate = 60; //revalidate at every 60 seconds
 
 export default async function Home() {
   const products = await getAllProducts();
   const categories = await getAllCategories();
 
-  // console.log(crypto.randomUUID().slice(0.5) + `>>> Rerendered the home page cacha with ${products.length} products and ${getEnabledCategories.length}`);
+  console.log(
+    crypto.randomUUID().slice(0, 5) +
+    `>>> Rerendered the home page cache with ${products.length} 
+    products and ${categories.length} categories`
+  );
+
   return (
     <div>
       <ChineseNewYearBanner />

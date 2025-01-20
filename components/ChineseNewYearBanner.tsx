@@ -34,9 +34,9 @@ async function ChineseNewYearBanner() {
         </div>
         <div className="flex-shrink-0">
           <img
-            src="/chinese-new-year-decoration.png"
+            src="/cny-banner.png"
             alt="Chinese New Year Decoration"
-            className="w-64 h-64 object-contain"
+            className="w-70 h-64 object-contain"
           />
         </div>
       </div>
