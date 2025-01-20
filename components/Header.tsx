@@ -4,9 +4,13 @@ import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { ShoppingCart, ShoppingBasket, Search } from 'lucide-react';
 import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import useBasketStore from "@/store/store";
 
 const Header = () => {
   const { user } = useUser();
+  const itemCount = useBasketStore((state) => 
+    state.items.reduce((total, item) => total + item.quantity, 0)
+  );
   const router = useRouter();
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -40,9 +44,15 @@ const Header = () => {
         <div className="flex items-center space-x-4 mt-4 sm:mt-0">
           <Link
             href="/basket"
-            className="flex items-center space-x-2 bg-primary text-white py-2 px-4 rounded-full hover:bg-primary-dark transition-colors"
+            className="flex-1 relative flex justify-center sm:justify-start
+            sm:flex-none items-center space-x-2 bg-primary text-white py-2 px-4 rounded-full hover:bg-primary-dark transition-colors"
           >
             <ShoppingCart size={20} />
+
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white
+                rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                  {itemCount}
+            </span>
             <span className="hidden sm:inline">My Basket</span>
           </Link>
           

@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
+import ChineseNewYearBanner from "@/components/ChineseNewYearBanner";
 import ProductsView from "../../components/ProductsView"
 import { getAllCategories } from "@/sanity/lib/products/getAllCategories";
-import ChineseNewYearBanner from "@/components/ChineseNewYearBanner";
+import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const products = await getAllProducts();
