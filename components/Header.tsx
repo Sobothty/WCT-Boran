@@ -1,102 +1,145 @@
-'use client';
+"use client"
 
-import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import { ShoppingCart, ShoppingBasket, Search } from 'lucide-react';
-import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
-import useBasketStore from "@/store/store";
+import Link from "next/link"
+import { useRouter, usePathname } from "next/navigation"
+import { ShoppingCart, ShoppingBag, Search, User, Heart } from "lucide-react"
+import { ClerkLoaded, SignInButton, SignOutButton, UserButton, useUser } from "@clerk/nextjs"
+import useBasketStore from "@/store/store"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 const Header = () => {
-  const { user } = useUser();
-  const itemCount = useBasketStore((state) => 
-    state.items.reduce((total, item) => total + item.quantity, 0)
-  );
-  const router = useRouter();
+  const { user } = useUser()
+  const itemCount = useBasketStore((state) => state.items.reduce((total, item) => total + item.quantity, 0))
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const navigation = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+  ]
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const query = formData.get('query');
-    router.push(`/search?query=${encodeURIComponent(query as string)}`);
-  };
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const query = formData.get("query")
+    router.push(`/search?query=${encodeURIComponent(query as string)}`)
+  }
 
   return (
-    <header className="bg-white shadow-md py-4 px-6">
-      <div className="container mx-auto flex flex-wrap items-center justify-between">
-        <Link href="/" className="text-primary font-bold text-3xl hover:opacity-80 transition-opacity">
-          BORAN
-        </Link>
-        
-        <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-4">
-          <div className="relative">
-            <input
-              type="text"
-              name="query"
-              placeholder="Search for Products"
-              className="w-full bg-gray-100 text-primary px-4 py-2 pr-10 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <Search className="text-gray-400 hover:text-primary transition-colors" />
-            </button>
-          </div>
-        </form>
-
-        <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-          <Link
-            href="/basket"
-            className="flex-1 relative flex justify-center sm:justify-start
-            sm:flex-none items-center space-x-2 bg-primary text-white py-2 px-4 rounded-full hover:bg-primary-dark transition-colors"
-          >
-            <ShoppingCart size={20} />
-
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white
-                rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {itemCount}
-            </span>
-            <span className="hidden sm:inline">My Basket</span>
+    <header className="bg-white shadow-lg sticky top-0 z-50 backdrop-blur-lg bg-white/90">
+      <div className="container mx-auto px-6">
+        {/* Top bar */}
+        <div className="flex items-center justify-between py-4 border-b border-gray-100">
+          <Link href="/" className="text-primary font-bold text-3xl hover:opacity-80 transition-opacity tracking-tight">
+            BORAN
           </Link>
-          
-          <ClerkLoaded>
-            {user && (
-              <Link
-                href="/orders"
-                className="flex items-center space-x-2 bg-primary text-white py-2 px-4 rounded-full hover:bg-primary-dark transition-colors"
-              >
-                <ShoppingBasket size={20} />
-                <span className="hidden sm:inline">My Orders</span>
+
+          <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-8">
+            <div className="relative">
+              <Input 
+                type="text" 
+                name="query" 
+                placeholder="Search for Products" 
+                className="w-full pr-10 h-11 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+              />
+              <Button type="submit" size="sm" variant="ghost" className="absolute right-0 top-0 h-full">
+                <Search className="h-4 w-4" />
+              </Button>
+            </div>
+          </form>
+
+          <div className="flex items-center space-x-4">
+            <Button asChild variant="ghost" size="icon" className="relative">
+              <Link href="/favorites">
+                <Heart className="h-5 w-5" />
+                <span className="sr-only">Favorites</span>
               </Link>
-            )}
+            </Button>
 
-            {user ? (
-              <div className="flex items-center space-x-2">
-                <UserButton />
-                <div className="hidden sm:block text-xs">
-                  <p className="text-gray-500">Welcome back,</p>
-                  <p className="font-semibold">{user.fullName}</p>
-                </div>
-              </div>
-            ) : (
-              <SignInButton mode="modal">
-                <button className="bg-white text-primary border border-primary py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors">
-                  Sign In
-                </button>
-              </SignInButton>
-            )}
+            <Button asChild variant="outline" size="lg" className="relative">
+              <Link href="/basket">
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Basket</span>
+                {itemCount > 0 && (
+                  <Badge variant="destructive" className="absolute -top-2 -right-2">
+                    {itemCount}
+                  </Badge>
+                )}
+              </Link>
+            </Button>
 
-            {user?.passkeys.length === 0 && (
-              <button
-                onClick={() => user.createPasskey()}
-                className="bg-white text-primary border border-primary py-2 px-4 rounded-full hover:bg-primary hover:text-white transition-colors"
-              >
-                Create Passkey
-              </button>
-            )}
-          </ClerkLoaded>
+            <ClerkLoaded>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="lg" className="font-medium">
+                      <User className="h-4 w-4 mr-2" />
+                      <span className="hidden sm:inline">{user.fullName}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-64">
+                    <DropdownMenuItem asChild className="py-3">
+                      <Link href="/orders" className="w-full">
+                        <ShoppingBag className="h-4 w-4 mr-2" />
+                        My Orders
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="py-3">
+                      <Link href="/favorites" className="w-full">
+                        <Heart className="h-4 w-4 mr-2" />
+                        My Favorites
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="py-3">
+                      <UserButton afterSignOutUrl="/" />
+                      <span className="ml-2">Manage Account</span>
+                    </DropdownMenuItem>
+                    {user.passkeys.length === 0 && (
+                      <DropdownMenuItem onSelect={() => user.createPasskey()} className="py-3">
+                        Create Passkey
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem className="py-3">
+                      <SignOutButton>
+                        <button className="w-full text-left">Sign Out</button>
+                      </SignOutButton>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <SignInButton mode="modal">
+                  <Button size="lg" className="font-medium">Sign In</Button>
+                </SignInButton>
+              )}
+            </ClerkLoaded>
+          </div>
         </div>
+
+        {/* Navigation */}
+        <nav className="flex items-center space-x-8 py-4 overflow-x-auto">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                pathname === item.href
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              )}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
-
+export default Header
