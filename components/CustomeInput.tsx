@@ -6,7 +6,7 @@ import { set, unset } from 'sanity'
 
 interface CustomDateInputProps {
   value?: string
-  onChange: (patch: any) => void
+  onChange: (patch: ReturnType<typeof set> | ReturnType<typeof unset>) => void
 }
 
 export const CustomDateInput = forwardRef<HTMLInputElement, CustomDateInputProps>((props, ref) => {
@@ -15,7 +15,6 @@ export const CustomDateInput = forwardRef<HTMLInputElement, CustomDateInputProps
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const nextValue = event.target.value
-
       onChange(nextValue ? set(nextValue) : unset())
     },
     [onChange]
@@ -35,4 +34,3 @@ export const CustomDateInput = forwardRef<HTMLInputElement, CustomDateInputProps
 })
 
 CustomDateInput.displayName = 'CustomDateInput'
-

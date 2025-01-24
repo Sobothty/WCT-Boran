@@ -37,7 +37,7 @@ function BasketPage() {
                     <ShoppingBag className="w-16 h-16 mx-auto text-gray-400" />
                     <h1 className="text-3xl font-bold text-gray-900">Your basket is empty</h1>
                     <p className="text-gray-600 text-lg max-w-md mx-auto">
-                        Looks like you haven't added anything to your basket yet.
+                        Looks like you have not added anything to your basket yet.
                     </p>
                     <Link 
                         href="/"
