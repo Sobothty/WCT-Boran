@@ -31,7 +31,7 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6 tracking-tight">About BORAN</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We're passionate about delivering quality products and exceptional shopping experiences to our customers worldwide.
+            We are passionate about delivering quality products and exceptional shopping experiences to our customers worldwide.
           </p>
         </div>
 
@@ -65,7 +65,7 @@ export default function AboutPage() {
             </div>
             <div>
               <h4 className="text-xl font-semibold mb-2">Sustainability</h4>
-              <p className="text-gray-600">We're committed to environmentally responsible practices.</p>
+              <p className="text-gray-600">We are committed to environmentally responsible practices.</p>
             </div>
           </div>
         </div>

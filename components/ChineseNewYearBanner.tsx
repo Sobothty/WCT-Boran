@@ -1,6 +1,7 @@
 import { COUPON_CODES } from "@/sanity/lib/sales/couponCodes";
 import { getActiveSaleByCouponCode } from "@/sanity/lib/sales/getActiveSaleByCouponCode";
 import { Sparkles } from 'lucide-react';
+import Image from 'next/image';
 
 async function ChineseNewYearBanner() {
   const sale = await getActiveSaleByCouponCode(COUPON_CODES.NIHAO);
@@ -33,7 +34,7 @@ async function ChineseNewYearBanner() {
           </div>
         </div>
         <div className="flex-shrink-0">
-          <img
+          <Image
             src="/cny-banner.png"
             alt="Chinese New Year Decoration"
             className="w-70 h-64 object-contain"

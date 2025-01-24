@@ -42,7 +42,7 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-6 tracking-tight">Contact Us</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Have a question or feedback? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            Have a question or feedback? We would love to hear from you. Send us a message and we will respond as soon as possible.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export default function ContactPage() {
               <Send className="h-12 w-12 text-primary mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-2">Message Sent!</h2>
               <p className="text-gray-600 mb-6">
-                Thank you for contacting us. We'll get back to you shortly.
+                Thank you for contacting us. We will get back to you shortly.
               </p>
               <Button onClick={() => setSubmitted(false)}>Send Another Message</Button>
             </div>

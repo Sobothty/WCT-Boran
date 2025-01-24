@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
         hostname: "cdn.sanity.io",
       }
     ]
+  },
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@typescript-eslint/no-empty-object-type": "off"
   }
 };
 
